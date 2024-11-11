@@ -1,0 +1,105 @@
+﻿@model Pecas2.Models.ItemPedido
+
+@{
+    ViewData["Title"] = "Cadastrar";
+}
+
+<h1>Cadastrar</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PedidoId" class="control-label"></label>
+                <select asp-for="PedidoId" class="form-control" asp-items="@(ViewData["PedidoId"] as SelectList)"></select>
+
+            </div>
+            <div id="produtos-container">
+                <div class="produto-item">
+                    <div class="form-group">
+                        <label for="ProdutoId" class="control-label">Produto</label>
+                        <select name="ProdutoIds[]" class="form-control produto-id" data-preco="0">
+                            @foreach (var produto in ViewBag.ProdutosComPreco)
+                            {
+                                <option value="@produto.Id" data-preco="@produto.Preco">@produto.Nome</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Quantidade" class="control-label">Quantidade</label>
+                        <input name="Quantidades[]" type="number" class="form-control quantidade" min="1" value="1" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Total" class="control-label">Total</label>
+                        <input type="text" class="form-control total" readonly />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="button" id="add-produto" class="btn btn-secondary">Adicionar Produto</button>
+            </div>
+            <div class="form-group">
+                <label for="TotalFinal" class="control-label">Total Final</label>
+                <input type="text" id="total-final" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volte para listagem</a>
+</div>
+
+@section Scripts {
+    <script>
+       
+        function updateTotal() {
+            var totalFinal = 0; 
+
+            var produtoItem = $(".produto-item");
+            produtoItem.each(function () {
+                var quantidade = parseFloat($(this).find(".quantidade").val()); 
+                var preco = parseFloat($(this).find(".produto-id option:selected").data("preco"));
+
+                if (!isNaN(quantidade) && !isNaN(preco)) {
+                    var total = quantidade * preco;
+                    $(this).find(".total").val(total.toFixed(2));
+                    totalFinal += total; 
+                } else {
+                    $(this).find(".total").val("0.00");
+                }
+            });
+
+            
+            $("#total-final").val(totalFinal.toFixed(2));
+        }
+
+        
+        $("#add-produto").click(function () {
+            var produtoItem = $(".produto-item:first").clone();
+            produtoItem.find(".quantidade").val(1); 
+            produtoItem.find(".total").val(0); 
+            produtoItem.appendTo("#produtos-container");
+            updateTotal();
+        });
+
+       
+        $(document).on("input", ".quantidade", function () {
+            updateTotal();
+        });
+
+        
+        $(document).on("change", ".produto-id", function () {
+            var preco = $(this).find("option:selected").data("preco");
+            console.log("Preço selecionado:", preco); 
+            updateTotal();
+        });
+    </script>
+}

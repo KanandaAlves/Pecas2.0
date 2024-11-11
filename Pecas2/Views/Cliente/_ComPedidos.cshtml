@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Pecas2.Models.Pedido>
+
+	<div class="panel panel-primary">
+		<div class="card-header text-white bg-warning text-center">
+			Relação de pedidos registrados para o cliente
+		</div>	
+		<div class="panel-body">
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>
+								@Html.DisplayNameFor(model => model.Id)
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+					@foreach (var item in Model)
+					{
+						<tr>
+							<td>
+								@Html.DisplayFor(modelItem => item.Id)
+							</td>
+						</tr>
+					}
+					</tbody>
+				</table>
+			</div>
+		<div class="panel-footer panel-info"></div>
+	</div>

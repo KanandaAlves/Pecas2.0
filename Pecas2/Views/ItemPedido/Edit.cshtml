@@ -1,0 +1,51 @@
+﻿@model Pecas2.Models.ItemPedido
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit ItemPedido</h1>
+
+<h4>ItemPedido</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <!-- Exibe erros de validação -->
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Campo Hidden para PedidoId e ProdutoId -->
+            <input type="hidden" asp-for="PedidoId" />
+            <input type="hidden" asp-for="ProdutoId" />
+
+            <!-- Campo de Quantidade -->
+            <div class="form-group">
+                <label asp-for="Quantidade" class="control-label"></label>
+                <input asp-for="Quantidade" class="form-control" />
+                <span asp-validation-for="Quantidade" class="text-danger"></span>
+            </div>
+
+            <!-- Campo de Total (apenas leitura) -->
+            <div class="form-group">
+                <label asp-for="Total" class="control-label"></label>
+                <input asp-for="Total" class="form-control" readonly />
+                <span asp-validation-for="Total" class="text-danger"></span>
+            </div>
+
+            <!-- Botão de envio -->
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,38 @@
+﻿@model Pecas2.Models.ItemPedido
+
+@{
+    ViewData["Title"] = "Deletar";
+}
+
+<h1>Deletar ItemPedido</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <h5>Tem certeza de que deseja excluir este ItemPedido?</h5>
+        <dl class="dl-horizontal">
+            <dt>Pedido:</dt>
+            <dd>@Model.Pedido.Descricao</dd>
+
+            <dt>Produto:</dt>
+            <dd>@Model.Produto.Nome</dd>
+
+            <dt>Quantidade:</dt>
+            <dd>@Model.Quantidade</dd>
+
+            <dt>Total:</dt>
+            <dd>@Model.Total</dd>
+        </dl>
+
+        <form asp-action="DeleteConfirmed" method="post">
+           
+            <input type="hidden" asp-for="PedidoId" />
+            <input type="hidden" asp-for="ProdutoId" />
+
+            <div class="form-group">
+                <input type="submit" value="Deletar" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
